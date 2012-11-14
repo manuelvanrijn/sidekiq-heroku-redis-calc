@@ -1,0 +1,1 @@
+Connection and concurrency calculator for hosting Sidekiq on Heroku with Redis to Go

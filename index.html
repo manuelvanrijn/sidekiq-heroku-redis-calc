@@ -1,84 +1,230 @@
 <!DOCTYPE html>
-<html>
 
-  <head>
-    <meta charset='utf-8' />
-    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="Sidekiq-heroku-redis-calc : Connection and concurrency calculator for hosting Sidekiq on Heroku with Redis to Go" />
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
 
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+  <!-- Set the viewport width to device width for mobile -->
+  <meta name="viewport" content="width=device-width" />
 
-    <title>Sidekiq-heroku-redis-calc</title>
-  </head>
+  <title>Sidekiq Heroku Redis calculator</title>
 
-  <body>
+  <!-- Included CSS Files (Compressed) -->
+  <link rel="stylesheet" href="content/stylesheets/foundation.min.css">
+  <link rel="stylesheet" href="content/stylesheets/app.css">
 
-    <!-- HEADER -->
-    <div id="header_wrap" class="outer">
-        <header class="inner">
-          <a id="forkme_banner" href="https://github.com/manuelvanrijn/sidekiq-heroku-redis-calc">View on GitHub</a>
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="content/stylesheets/font-awesome.css">
+  <!--[if IE 7]>
+    <link rel="stylesheet" href="assets/css/font-awesome-ie7.css">
+  <![endif]-->
 
-          <h1 id="project_title">Sidekiq-heroku-redis-calc</h1>
-          <h2 id="project_tagline">Connection and concurrency calculator for hosting Sidekiq on Heroku with Redis to Go</h2>
+  <script src="content/javascripts/modernizr.foundation.js"></script>
+  <script src="content/javascripts/prettify.min.js"></script>
 
-            <section id="downloads">
-              <a class="zip_download_link" href="https://github.com/manuelvanrijn/sidekiq-heroku-redis-calc/zipball/master">Download this project as a .zip file</a>
-              <a class="tar_download_link" href="https://github.com/manuelvanrijn/sidekiq-heroku-redis-calc/tarball/master">Download this project as a tar.gz file</a>
-            </section>
-        </header>
+
+  <!-- IE Fix for HTML5 Tags -->
+  <!--[if lt IE 9]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+</head>
+<body>
+
+  <div class="container">
+    <div class="row">
+      <div class="twelve columns">
+        <h1>S<small>idekiq</small>H<small>eroku</small>R<small>edis calculator</small></h1>
+        <h5 class="subheader"> <code>Redis connection</code> and <code>concurrencies</code> calculator for hosting <a href="http://mperham.github.com/sidekiq/">Sidekiq</a> on <a href="http://www.heroku.com">Heroku</a> with <a href="https://addons.heroku.com/redistogo">Redis to Go</a></h5>
+        <p>Simple calculator to calculate how many <code>concurrencies</code> and <code>Redis connections</code> you have to define for working with  on <p>
+        <hr />
+      </div>
     </div>
 
-    <!-- MAIN CONTENT -->
-    <div id="main_content_wrap" class="outer">
-      <section id="main_content" class="inner">
-        <h3>Welcome to GitHub Pages.</h3>
+    <div class="row">
+      <div class="twelve columns">
+        <form class="custom">
 
-<p>This automatic page generator is the easiest way to create beautiful pages for all of your projects. Author your page content here using GitHub Flavored Markdown, select a template crafted by a designer, and publish. After your page is generated, you can check out the new branch:</p>
+          <div class="row">
+            <div class="three mobile-one columns">
+              <label class="right inline">Redis To Go instance:</label>
+            </div>
+            <div class="nine mobile-three columns">
+              <div class="row">
+                <div class="two columns">
+                  <label for="radio_nano" class="inline instance_type">
+                    <input name="instance" checked="checked" type="radio" id="radio_nano" style="display:none;" value="10" />
+                    <span class="custom radio"></span> Nano<small> 10</small>
+                  </label>
+                </div>
+                <div class="two columns">
+                  <label for="radio_mini" class="inline instance_type">
+                    <input name="instance" type="radio" id="radio_mini" style="display:none;" value="50" />
+                    <span class="custom radio"></span> Mini <small>50</small>
+                  </label>
+                </div>
+                <div class="two columns">
+                  <label for="radio_small" class="inline instance_type">
+                    <input name="instance" type="radio" id="radio_small" style="display:none;" value="256" />
+                    <span class="custom radio"></span> Small <small>256</small>
+                  </label>
+                </div>
+                <div class="two columns">
+                  <label for="radio_medium" class="inline instance_type">
+                    <input name="instance" type="radio" id="radio_medium" style="display:none;" value="512" />
+                    <span class="custom radio"></span> Medium <small>512</small>
+                  </label>
+                </div>
+                <div class="two columns">
+                  <label for="radio_large" class="inline instance_type">
+                    <input name="instance" type="radio" id="radio_large" style="display:none;" value="1024" />
+                    <span class="custom radio"></span> Large <small>1024</small>
+                  </label>
+                </div>
+                <div class="two columns">
+                  <input type="number" value="10" id="max_connections" class="eight" />
+                </div>
+              </div>
+            </div>
+          </div>
 
-<pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+          <div class="row">
+            <div class="three mobile-one columns">
+              <label class="right inline range">Heroku Dynos:</label>
+            </div>
+            <div class="nine mobile-three columns">
+              <div class="row">
+                <div class="four columns">
+                  <label for="web" class="inline">
+                    <span class="radius label">Web</span><br />
+                    <input type="range" min="1" max="100" value="0" step="1" />
+                    <input type="number" value="1" id="dyno_web" class="three" />
+                  </label>
+                </div>
+                <div class="four columns">
+                  <label for="web" class="inline">
+                    <span class="radius label">Worker (used for Sidekiq)</span><br />
+                    <input type="range" min="1" max="100" value="0" step="1" />
+                    <input type="number" value="1" id="dyno_worker" class="three" />
+                  </label>
+                </div>
+                <div class="four columns">&nbsp;</div>
+              </div>
+            </div>
+          </div>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
+          <div class="row">
+            <div class="three mobile-one columns">
+              <label class="right inline">Web threads:</label>
+            </div>
+            <div class="nine mobile-three columns">
+              <div class="row">
+                <div class="four columns">
+                  <input type="range" min="1" max="100" value="0" step="1" />
+                  <input type="number" value="1" id="web_threads" class="three" />
+                </div>
+                <div class="eight columns">
+                  <p class="small">If you're using Unicorn, you have to fill in the number you've defined in <code>worker_processes</code> from your <code>app/config/unicorn.rb</code> file.</p>
+                </div>
+              </div>
 
-<h3>Designer Templates</h3>
+            </div>
+          </div>
 
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+          <div class="row">
+            <div class="three mobile-one columns">
+              <label class="right inline">Redis client connection size:</label>
+            </div>
+            <div class="nine mobile-three columns">
+              <div class="row">
+                <div class="two columns">
+                  <input type="number" id="redis_client_connections" value="1" />
+                </div>
+                <div class="eight columns offset-by-two">
+                  <p class="small">Number of connections per Web dyno, (per Unicorn worker) <em>minimum 1</em>. Only change this value if you query the Redis database more than just for adding tasks to the Sidekiq queue.</p>
+                </div>
+              </div>
 
-<h3>Rather Drive Stick?</h3>
+            </div>
+          </div>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
-
-<h3>Authors and Contributors</h3>
-
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
-      </section>
+        </form>
+      </div>
+      <hr />
     </div>
 
-    <!-- FOOTER  -->
-    <div id="footer_wrap" class="outer">
-      <footer class="inner">
-        <p class="copyright">Sidekiq-heroku-redis-calc maintained by <a href="https://github.com/manuelvanrijn">manuelvanrijn</a></p>
-        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
-      </footer>
+    <div class="row">
+      <div class="three columns">
+        <ul class="pricing-table">
+          <li class="title">Sidekiq concurrencies</li>
+          <li class="price" id="concurrency"></li>
+        </ul>
+        <ul class="pricing-table">
+          <li class="title">Sidekiq server connections</li>
+          <li class="price" id="server_connection_size"></li>
+        </ul>
+      </div>
+      <div class="five columns code_block">
+<pre class="prettyprint languague-ruby" id="code_initializer">
+# app/config/initializers/sidekiq.rb
+require 'sidekiq'
+
+Sidekiq.configure_client do |config|
+  config.redis = { :size => 0 }
+end
+
+Sidekiq.configure_server do |config|
+  config.redis = { :size => 0 }
+end
+</pre>
+      </div>
+      <div class="four columns code_block">
+<pre class="prettyprint languague-yaml" id="code_concurrency">
+# app/config/sidekiq.yml
+:concurrency: 0
+</pre>
+      </div>
     </div>
 
-              <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-          </script>
-          <script type="text/javascript">
-            try {
-              var pageTracker = _gat._getTracker("toeteren");
-            pageTracker._trackPageview();
-            } catch(err) {}
-          </script>
+  <!-- Footer -->
 
+  <footer class="row">
+    <div class="twelve columns">
+      <hr />
+      <div class="row">
+        <div class="six columns">
+          <p>&copy; Copyright by <a href="http://manuel.manuelles.nl/">Manuel van Rijn</a>.</p>
+        </div>
+        <div class="six columns">
+          <ul class="link-list right">
+            <li><a href="http://manuel.manuelles.nl/blog/2012/11/13/sidekiq-on-heroku-with-redistogo-nano/">Blog post</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
 
-  </body>
+  <!-- Included JS Files (Compressed) -->
+  <script src="content/javascripts/foundation.min.js"></script>
+
+  <!-- Initialize JS Plugins -->
+  <script src="content/javascripts/app.js"></script>
+
+  <script type="text/javascript">
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-17149124-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+  </script>
+</body>
 </html>
