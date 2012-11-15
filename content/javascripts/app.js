@@ -95,7 +95,7 @@
       code_client_size.html(error);
     }
     else {
-      $("#concurrency").html(concurrency);
+      $("#concurrency").html(Math.round(concurrency));
       code_concurrency.html('<strong>' + Math.round(concurrency) + '</strong>');
       code_server_size.html('<strong>' + Math.round(server_connections) + '</strong>');
       code_client_size.html('<strong>' + Math.round(client_conn) + '</strong>');
