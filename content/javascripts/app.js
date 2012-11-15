@@ -73,7 +73,7 @@
   });
 
   var calculate = function() {
-    var max_connections = $("#max_connections").val();
+    var max_connections = parseInt($("#max_connections").val());
     var web_dynos       = $("#dyno_web").val();
     var worker_dynos    = $("#dyno_worker").val();
     var web_threads     = $("#web_threads").val();
@@ -81,9 +81,13 @@
     var redis_reserved  = 2;
 
     var web_connections     = (web_dynos * (client_conn * web_threads));
-    var concurrency         = (max_connections - web_connections - redis_reserved) / worker_dynos;
+    var concurrency         = (max_connections - web_connections - (redis_reserved * worker_dynos)) / worker_dynos;
     var server_connections  = concurrency + redis_reserved;
 
+	web_connections = Math.floor(web_connections);
+	concurrency = Math.floor(concurrency);
+	server_connections = Math.floor(server_connections);
+	
     var code_client_size = $("#code_initializer .lit:eq(0)");
     var code_server_size = $("#code_initializer .lit:eq(1)");
     var code_concurrency = $("#code_concurrency .lit:eq(0)");
@@ -95,14 +99,13 @@
       code_client_size.html(error);
     }
     else {
-      $("#concurrency").html(Math.round(concurrency));
-      code_concurrency.html('<strong>' + Math.round(concurrency) + '</strong>');
-      code_server_size.html('<strong>' + Math.round(server_connections) + '</strong>');
-      code_client_size.html('<strong>' + Math.round(client_conn) + '</strong>');
-      $("#server_connection_size").html(Math.round(concurrency + redis_reserved));
+      $("#concurrency").html(concurrency);
+      code_concurrency.html('<strong>' + concurrency + '</strong>');
+      code_server_size.html('<strong>' + server_connections + '</strong>');
+      code_client_size.html('<strong>' + client_conn + '</strong>');
+      $("#server_connection_size").html(concurrency + redis_reserved);
     }
     //max connections = (Heroku worker count * (concurrency + 2 reserved connections)) + (web dyno count * (client connection size * unicorn worker_process size))
-
   };
 
   $("#redis_client_connections").on('change', calculate);
