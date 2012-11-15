@@ -96,10 +96,10 @@
     }
     else {
       $("#concurrency").html(concurrency);
-      code_concurrency.html('<strong>' + concurrency + '</strong>');
-      code_server_size.html('<strong>' + server_connections + '</strong>');
-      code_client_size.html('<strong>' + client_conn + '</strong>');
-      $("#server_connection_size").html(concurrency + redis_reserved);
+      code_concurrency.html('<strong>' + Math.round(concurrency) + '</strong>');
+      code_server_size.html('<strong>' + Math.round(server_connections) + '</strong>');
+      code_client_size.html('<strong>' + Math.round(client_conn) + '</strong>');
+      $("#server_connection_size").html(Math.round(concurrency + redis_reserved));
     }
     //max connections = (Heroku worker count * (concurrency + 2 reserved connections)) + (web dyno count * (client connection size * unicorn worker_process size))
 
